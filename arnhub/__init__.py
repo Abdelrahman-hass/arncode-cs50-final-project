@@ -16,7 +16,7 @@ def create_app():
     # Configuration
     # -----------------------
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-key')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL') or 'sqlite:///db.sqlite'
     app.config['UPLOAD_FOLDER'] = os.path.join('static', 'lesson_videos')
 
     # 📧 Email settings
