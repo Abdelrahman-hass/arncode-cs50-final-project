@@ -18,3 +18,15 @@ if __name__ == "__main__":
     app.run(debug=True)
     
     
+@app.before_first_request
+def create_admin():
+    with app.app_context():
+        if not User.query.filter_by(username="admin").first():
+            admin = User(
+                username="ARNcode",
+                email="arncode.app@gmail.com",
+                password=generate_password_hash("Abd123an0", method="sha256"),
+                is_admin=True
+            )
+            db.session.add(admin)
+            db.session.commit()
