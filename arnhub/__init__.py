@@ -68,7 +68,7 @@ def create_app():
         admin = User(
         username="ARNcode",
         email="arncode.app@gmail.com",
-        password=generate_password_hash("Abd123an0", method="pbkdf2:sha256"),
+        password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
         is_admin=True,
         is_head_admin=True   # ✅ this line promotes the user
     )
