@@ -64,19 +64,19 @@ def create_app():
         db.create_all()
 
         # ✅ Auto-create default admin
-        if not User.query.filter_by(username="ARNcode").first():
-            admin = User(
-                username="ARNcode",
-                email="arncode.app@gmail.com",
-                password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
-                is_admin=True
-            )
-            db.session.add(admin)
-            db.session.commit()
-            print("✅ Admin user created.")
-        else:
-            print("⚠️ Admin already exists.")
-
+    if not User.query.filter_by(username="ARNcode").first():
+        admin = User(
+        username="ARNcode",
+        email="arncode.app@gmail.com",
+        password=generate_password_hash("Abd123an0", method="pbkdf2:sha256"),
+        is_admin=True,
+        is_head_admin=True   # ✅ this line promotes the user
+    )
+        db.session.add(admin)
+        db.session.commit()
+        print("✅ Head Admin user created.")
+    else:
+        print("⚠️ Admin already exists.")
     # -----------------------
     # Template context
     # -----------------------
