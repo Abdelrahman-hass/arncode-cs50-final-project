@@ -58,25 +58,29 @@ def create_app():
     app.register_blueprint(admin_bp)
 
     # -----------------------
-    # Create tables and admin
+    # Create tables and Head Admin user
     # -----------------------
     with app.app_context():
         db.create_all()
 
-        # ✅ Auto-create default admin
-    if not User.query.filter_by(username="ARNcode").first():
-        admin = User(
-        username="ARNcode",
-        email="arncode.app@gmail.com",
-        password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
-        is_admin=True,
-        is_head_admin=True   # ✅ this line promotes the user
-    )
-        db.session.add(admin)
-        db.session.commit()
-        print("✅ Head Admin user created.")
-    else:
-        print("⚠️ Admin already exists.")
+        user = User.query.filter_by(username="ARNcode").first()
+        if not user:
+            admin = User(
+                username="ARNcode",
+                email="arncode.app@gmail.com",
+                password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
+                is_admin=True,
+                is_head_admin=True
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print("✅ Head Admin user created.")
+        else:
+            user.is_admin = True
+            user.is_head_admin = True
+            db.session.commit()
+            print("⚠️ Existing user promoted to Head Admin.")
+
     # -----------------------
     # Template context
     # -----------------------
