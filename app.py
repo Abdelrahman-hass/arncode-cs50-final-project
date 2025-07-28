@@ -2,6 +2,9 @@ from flask import Flask
 from flask_migrate import Migrate
 from arnhub import create_app, db
 import os
+from arnhub.models import User
+from arnhub import db
+from werkzeug.security import generate_password_hash
 
 app = create_app()
 
@@ -13,3 +16,5 @@ migrate = Migrate(app, db)
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+    
