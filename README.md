@@ -1,28 +1,48 @@
 # ARNcode – CS50 Final Project
 
-**Author:** Abdelrahman Hass  
-**Course:** CS50x 2025  
-**Project:** Web-based Learning Hub
+#### Video Demo: [https://youtu.be/tAm0Aluw5mg?si=-UiBiOX9OVN5Va12](https://youtu.be/tAm0Aluw5mg?si=-UiBiOX9OVN5Va12)
 
-## 📌 Description
+---
 
-ARNcode is a full-stack web application for interactive learning. It allows users to sign up, log in, explore structured lessons under different courses, and request admin access.
+### Description
 
-Built using Flask and SQLite, this platform separates roles for users and admins. Admins can create and manage courses and lessons. Users can browse course content once logged in.
+ARNcode is a web-based learning platform built using Flask and SQLite. It allows users to create accounts, log in, and access structured course content. Users can also request admin access to manage courses and lessons.
 
-## 🧠 Features
+---
 
-- Signup and login functionality
-- Role-based access (users vs admins)
-- Admin dashboard to manage courses and lessons
-- Users can request admin access
-- Modern animated UI with dark theme
+### Features
 
-## 🚀 How to Run
+The app features:
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/Abdelrahman-hass/arncode-cs50-final-project.git
-   cd arncode-cs50-final-project
+- Signup and login functionality.
+- Role-based access: users and admins.
+- Users can view available courses and lessons after login.
+- Admins can:
+  - Add/edit/delete courses.
+  - Add/edit/delete lessons.
+  - View and manage users.
+  - Review admin requests (approve/reject/revoke).
 
+The UI is styled with a dark color palette, designed for clarity and accessibility.
 
+---
+
+### Files Overview
+
+- `app.py` – Main app entry point.  
+- `models.py` – SQLAlchemy models for Users, Courses, Lessons, AdminRequests.  
+- `auth.py`, `admin_routes.py`, `routes.py` – Flask Blueprints for auth, admin, and general views.  
+- `templates/` – All HTML templates (login, signup, dashboard, course views, lesson views, etc).  
+- `static/styles.css` – Global CSS styling.  
+- `README.md` – This file.  
+
+---
+
+### Design Notes
+
+- Users can request admin access via a dedicated form.  
+- Admin approval system includes reasons for rejection and revocation.  
+- Admins are limited by role: some are full (head admin), others limited (normal admin).  
+- Password reset via email is implemented for user convenience.  
+
+The app took approximately **3 weeks** to complete, including learning, design, coding, and video production.
