@@ -23,7 +23,7 @@ def create_admin_if_needed():
             admin = User(
                 username="ARNcode",
                 email="arncode.app@gmail.com",
-                password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
+                password=generate_password_hash("Abd123an0", method="pbkdf2:sha256"),
                 is_admin=True
             )
             db.session.add(admin)
