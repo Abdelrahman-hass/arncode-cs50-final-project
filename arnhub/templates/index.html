@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}ARNcode - Home{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-b from-purple-900 via-black to-blue-900 text-white min-h-screen font-sans">
+    <!-- Hero Section -->
+    <section class="text-center py-20 animate-fade-in-up">
+        <h1 class="text-5xl sm:text-6xl font-extrabold text-yellow-400 mb-6 animate-fade-in-up">Welcome to ARNcode</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-8 animate-fade-in-up">
+            The all-in-one learning hub for tech, science, design, and more — free, intuitive, and open to everyone.
+        </p>
+        <a href="{% if current_user.is_authenticated %}/courses{% else %}/signup{% endif %}"
+            class="bg-yellow-400 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300 transition-all duration-300 animate-zoom-in">
+            Get Started
+        </a>
+    </section>
+
+    <!-- Explore Topics Section -->
+    <section class="py-16 px-4 md:px-16 animate-fade-in-up">
+        <h2 class="text-3xl font-bold text-center mb-12">Explore Topics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">💻 Programming</h3>
+                <p>Python, Flask, Web Dev and more — hands-on and beginner-friendly.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">🧠 AI & Data</h3>
+                <p>Foundations of AI, ML, and data science. Learn by doing.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">🎨 Creative & More</h3>
+                <p>Design, logic, productivity — knowledge that expands your world.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-16 px-4 md:px-16 animate-fade-in-up">
+        <h2 class="text-3xl font-bold text-center mb-12">What Makes ARNcode Different?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">🚀 Free Forever</h3>
+                <p>No fees, no ads — just pure learning for everyone, always.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">📈 Progress Tracking</h3>
+                <p>Resume where you left off. Coming soon with detailed stats.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-xl font-semibold mb-2">🌍 Inclusive Learning</h3>
+                <p>Topics for all interests, skill levels, and learning goals.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 px-4 md:px-16 animate-fade-in-up">
+        <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-lg font-semibold mb-2">1. Sign Up</h3>
+                <p>Create a free account and unlock access to all features.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-lg font-semibold mb-2">2. Choose a Track</h3>
+                <p>Pick topics that interest you — from code to creativity.</p>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 shadow-lg hover:scale-105 transition transform">
+                <h3 class="text-yellow-400 text-lg font-semibold mb-2">3. Learn & Grow</h3>
+                <p>Watch lessons, build projects, and master your own pace.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 px-4 md:px-16 animate-fade-in-up">
+        <h2 class="text-3xl font-bold text-center mb-12">What Learners Say</h2>
+        <div class="max-w-3xl mx-auto bg-gray-900 rounded-xl p-6 shadow-lg">
+            <p class="italic text-gray-300 text-center">“ARNcode helped me finally understand Python!”</p>
+            <p class="text-yellow-400 text-right mt-4">– Ahmed M., Student</p>
+        </div>
+    </section>
+</div>
+{% endblock %}

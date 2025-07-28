@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.title }} | ARNcode{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-black via-purple-900 to-blue-950 text-white px-6 py-16">
+    <div class="max-w-5xl mx-auto animate-fade-in-up">
+        <div class="bg-black bg-opacity-40 p-8 rounded-2xl shadow-xl">
+            <h1 class="text-4xl font-extrabold text-yellow-400 mb-2">{{ course.title }}</h1>
+            <p class="text-gray-300 text-lg mb-4">{{ course.description }}</p>
+            <div class="mt-2 text-purple-300 text-lg">
+                <p><strong>Category:</strong> {{ course.category }}</p>
+                <p><strong>Difficulty:</strong> {{ course.difficulty }}</p>
+                <p><strong>Duration:</strong> {{ course.duration }}</p>
+
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <p><strong>Status:</strong>
+                    <span class="{{ 'text-green-400' if course.is_published else 'text-red-400' }}">
+                        {{ 'Published' if course.is_published else 'Unpublished' }}
+                    </span>
+                </p>
+                {% endif %}
+            </div>
+
+            {% if course.creator %}
+            <p class="text-sm text-gray-400 italic mb-2">
+                Created by: <span class="text-blue-300 font-medium">{{ course.creator.username }}</span>
+            </p>
+            {% endif %}
+
+            {% if course.created_at %}
+            <p class="text-sm text-gray-500">Published on: {{ course.created_at.strftime('%B %d, %Y') }}</p>
+            {% endif %}
+        </div>
+
+        {% if lessons %}
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-purple-300 mb-4">Lessons</h2>
+            <div class="grid gap-4">
+                {% for lesson in lessons %}
+                <a href="{{ url_for('main.view_lesson', course_id=course.id, lesson_id=lesson.id) }}"
+                    class="block bg-black bg-opacity-30 backdrop-blur-md rounded-xl px-6 py-4 shadow-md hover:scale-[1.02] transform transition-all duration-200">
+                    <h3 class="text-xl font-semibold text-yellow-300">{{ lesson.title }}</h3>
+                    {% if lesson.sections and lesson.sections[0].content %}
+                        <p class="text-sm text-gray-300">{{ lesson.sections[0].content[:100] }}...</p>
+                    {% else %}
+                        <p class="text-sm text-gray-500 italic">No preview available.</p>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="mt-6 text-gray-400 italic">No lessons available for this course yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.7s ease-out;
+    }
+</style>
+{% endblock %}

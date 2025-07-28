@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-purple-900 via-black to-blue-900 text-white px-4 py-12">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 gap-12">
+
+        <!-- Intro -->
+        <div class="text-center space-y-6">
+            <h1 class="text-4xl font-extrabold animate-fade-in-up">Welcome to ARNcode</h1>
+            <p class="text-gray-300 text-lg animate-fade-in-up delay-100">
+                A creative platform where knowledge meets accessibility — for everyone, everywhere.
+            </p>
+        </div>
+
+        <!-- Vision & Mission -->
+        <div class="grid gap-6 md:grid-cols-2">
+            <div class="bg-black bg-opacity-40 p-6 rounded-xl shadow-lg hover:scale-105 transform transition animate-fade-in-up delay-150">
+                <h3 class="text-2xl font-bold mb-2 text-yellow-300">Our Vision</h3>
+                <p class="text-gray-300">
+                    To become a go-to learning hub for students, self-learners, and professionals across a wide range of subjects.
+                </p>
+            </div>
+            <div class="bg-black bg-opacity-40 p-6 rounded-xl shadow-lg hover:scale-105 transform transition animate-fade-in-up delay-300">
+                <h3 class="text-2xl font-bold mb-2 text-yellow-300">Our Mission</h3>
+                <p class="text-gray-300">
+                    We aim to provide free, high-quality educational content in fields like coding, engineering, business, science, and more — all under one roof.
+                </p>
+            </div>
+        </div>
+
+        <!-- What You Can Do -->
+        <div class="text-center mt-10">
+            <h2 class="text-3xl font-bold text-purple-300 mb-6 animate-fade-in-up">What You Can Do on ARNcode</h2>
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="bg-zinc-900 p-6 rounded-xl shadow-md animate-fade-in-up delay-100">
+                    <h4 class="text-xl font-semibold mb-2 text-green-400">🎓 Learn at Your Pace</h4>
+                    <p class="text-gray-300">Explore lessons in various fields — from programming to marketing, math to physics — all for free.</p>
+                </div>
+                <div class="bg-zinc-900 p-6 rounded-xl shadow-md animate-fade-in-up delay-200">
+                    <h4 class="text-xl font-semibold mb-2 text-blue-400">✍️ Create and Share</h4>
+                    <p class="text-gray-300">Become a trusted educator by publishing your own courses in your area of expertise.</p>
+                </div>
+                <div class="bg-zinc-900 p-6 rounded-xl shadow-md animate-fade-in-up delay-300">
+                    <h4 class="text-xl font-semibold mb-2 text-yellow-400">👥 Join a Learning Community</h4>
+                    <p class="text-gray-300">Be part of a growing, supportive community that values curiosity, growth, and creativity.</p>
+                </div>
+                <div class="bg-zinc-900 p-6 rounded-xl shadow-md animate-fade-in-up delay-400">
+                    <h4 class="text-xl font-semibold mb-2 text-pink-400">🌐 Always Expanding</h4>
+                    <p class="text-gray-300">We’re constantly adding new content, subjects, and interactive features for all kinds of learners.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Info -->
+        <div class="mt-16 animate-fade-in-up">
+            <h2 class="text-3xl font-bold text-blue-300 mb-6 text-center">Admin Access & Contribution</h2>
+            <div class="space-y-6 text-gray-300 max-w-3xl mx-auto">
+                <p><strong>👑 Admins:</strong> Can create and manage their own courses within the subjects they choose.</p>
+                <p><strong>📤 How to Become an Admin:</strong></p>
+                <ol class="list-decimal list-inside space-y-2 pl-4">
+                    <li>Sign up or log into your account.</li>
+                    <li>Submit an admin request from your profile dashboard.</li>
+                    <li>Our Head Admins will review and approve valid requests.</li>
+                    <li>Once approved, you’re free to start building and publishing lessons.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Team -->
+        <div class="text-center mt-20 animate-fade-in-up">
+            <h2 class="text-3xl font-bold text-purple-300 mb-6">Meet the Team</h2>
+            <div class="flex flex-wrap justify-center gap-10">
+                <div class="w-60 bg-purple-900 bg-opacity-40 p-6 rounded-xl shadow-md transform hover:scale-105 transition">
+                    <div class="w-28 h-28 bg-gray-700 rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-yellow-300">ARNcode</h3>
+                    <p class="text-sm text-gray-300">Head Admin</p>
+                </div>
+                <div class="w-60 bg-purple-900 bg-opacity-40 p-6 rounded-xl shadow-md transform hover:scale-105 transition">
+                    <div class="w-28 h-28 bg-gray-700 rounded-full mx-auto mb-4"></div>
+                    <h3 class="text-xl font-bold text-yellow-300">Abdelrahman Hass</h3>
+                    <p class="text-sm text-gray-300">Admin</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="mt-20 max-w-4xl mx-auto text-center animate-fade-in-up">
+            <h2 class="text-3xl font-bold text-red-300 mb-8">What Learners Say</h2>
+            <div class="space-y-6">
+                <blockquote class="bg-black bg-opacity-40 p-6 rounded-xl italic text-gray-300">“I learned more here than in my university lectures. Super organized and beautiful!” <span class="text-blue-200">— Mariam A.</span></blockquote>
+                <blockquote class="bg-black bg-opacity-40 p-6 rounded-xl italic text-gray-300">“The admin system is genius. I started with coding, now I’m teaching math!” <span class="text-blue-200">— Khaled R.</span></blockquote>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-20 max-w-4xl mx-auto text-center animate-fade-in-up">
+            <h2 class="text-3xl font-bold mb-6 text-purple-300">FAQs</h2>
+            <div class="space-y-4 text-gray-300 text-left">
+                <div><strong>Q: Is ARNcode only for coding?</strong><br>A: No! While coding is a major part, we’re expanding to include subjects like math, physics, engineering, design, and more.</div>
+                <div><strong>Q: Can I publish a course in any field?</strong><br>A: Yes. Once you become an admin, you're free to publish in any topic you specialize in.</div>
+                <div><strong>Q: Is it really free?</strong><br>A: Yes. ARNcode is 100% free — forever.</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-black via-purple-900 to-black text-white py-8">
+    <div class="max-w-6xl mx-auto bg-zinc-900 p-8 rounded-2xl shadow-xl animate-fade-in">
+        <h1 class="text-3xl font-bold text-center text-purple-300 mb-6">Pending Admin Requests</h1>
+
+        {% if requests %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="text-purple-300 border-b border-gray-700 text-sm uppercase tracking-wider">
+                        <th class="py-3">Username</th>
+                        <th class="py-3">Email</th>
+                        <th class="py-3">Reason</th>
+                        <th class="py-3">Requested On</th>
+                        <th class="py-3">Status</th>
+                        <th class="py-3">Comment</th>
+                        <th class="py-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr class="border-b border-gray-800 hover:bg-zinc-800 transition text-sm">
+                        <td class="py-2 px-3 font-medium">{{ request.user.username if request.user else 'Unknown' }}
+                        </td>
+                        <td class="py-2 px-3">{{ request.user.email if request.user else '—' }}</td>
+                        <td class="py-2 px-3 text-gray-300 max-w-xs break-words">{{ request.reason or '—' }}</td>
+                        <td class="py-2 px-3">
+                            {{ request.timestamp.strftime('%Y-%m-%d') }}<br>
+                            <span class="text-xs text-gray-400">{{ request.timestamp.strftime('%H:%M') }}</span>
+                        </td>
+                        <td class="py-2 px-3">
+                            <span class="text-blue-400 font-semibold">{{ request.status }}</span>
+                        </td>
+                        <td class="py-2 px-3 text-red-400">{{ request.comment or '—' }}</td>
+                        <td class="py-2 px-3 text-center">
+                            <form method="POST"
+                                action="{{ url_for('admin.approve_admin_request', request_id=request.id) }}"
+                                class="inline">
+                                <button type="submit"
+                                    class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1 rounded shadow-md">Accept</button>
+                            </form>
+
+                            <button onclick="openModal('{{ request.id }}')"
+                                class="bg-red-600 hover:bg-red-700 text-white font-semibold px-3 py-1 rounded shadow-md ml-2">
+                                Reject
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-gray-400 text-lg mt-6">No admin requests at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="rejectModal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50">
+    <div class="bg-zinc-800 rounded-xl p-6 w-full max-w-md shadow-lg">
+        <h2 class="text-xl text-purple-300 font-bold mb-4">Reject Admin Request</h2>
+        <form method="POST" id="rejectForm">
+            <textarea name="reason" required placeholder="Enter rejection reason..."
+                class="w-full h-32 p-3 bg-zinc-900 text-white rounded-lg border border-purple-500 focus:outline-none focus:ring focus:ring-purple-400 resize-none mb-4"></textarea>
+            <div class="flex justify-end space-x-3">
+                <button type="button" onclick="closeModal()"
+                    class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md">Cancel</button>
+                <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold">Reject</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openModal(requestId) {
+        const modal = document.getElementById("rejectModal");
+        const form = document.getElementById("rejectForm");
+        form.action = `/admin/reject-admin/${requestId}`;
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("rejectModal");
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    }
+</script>
+{% endblock %}

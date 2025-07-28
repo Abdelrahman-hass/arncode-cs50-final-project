@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="text-white px-8 py-10 animate-slide-up">
+    <h1 class="text-3xl font-bold mb-6">Lessons for "{{ course.title }}"</h1>
+
+    <a href="{{ url_for('admin.add_lesson', course_id=course.id) }}"
+        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-6 inline-block">
+        + Add New Lesson
+    </a>
+
+    {% set lessons = course.lessons %}
+    {% if lessons %}
+    <div class="space-y-4">
+        {% for lesson in lessons %}
+        <div class="bg-gray-900 bg-opacity-60 rounded-xl px-6 py-4 shadow-md flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-semibold text-yellow-400">{{ lesson.title }}</h2>
+                <p class="text-sm mt-1">
+                    <span class="{{ 'text-green-400' if lesson.is_published else 'text-red-400' }}">
+                        Status: {{ 'Published' if lesson.is_published else 'Unpublished' }}
+                    </span>
+                </p>
+            </div>
+            <div class="flex gap-4">
+                <a href="{{ url_for('admin.edit_lesson', lesson_id=lesson.id) }}"
+                    class="text-blue-400 hover:text-blue-300 font-medium">Edit</a>
+                <form action="{{ url_for('admin.delete_lesson', lesson_id=lesson.id) }}"
+                    method="POST" onsubmit="return confirm('Are you sure you want to delete this lesson?')">
+                    <button type="submit" class="text-red-400 hover:text-red-300 font-medium">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-gray-400 italic">No lessons available.</p>
+    {% endif %}
+</section>
+{% endblock %}

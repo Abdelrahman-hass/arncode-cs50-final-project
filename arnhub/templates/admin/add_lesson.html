@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}Add Lesson | ARNcode{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-black via-purple-900 to-gray-900 text-white py-16 px-4 animate-fade-in-3d">
+    <div class="max-w-4xl mx-auto bg-gray-800 shadow-2xl rounded-3xl p-10 border border-purple-700 backdrop-blur-md">
+
+        <h1 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Add New Lesson</h1>
+
+        <form method="POST" enctype="multipart/form-data" onsubmit="prepareSectionsJSON()">
+            <!-- Title -->
+            <div class="mb-6">
+                <label for="title" class="block text-purple-300 font-semibold mb-2">Lesson Title:</label>
+                <input type="text" name="title" id="title" required
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+
+            <!-- Section Builder -->
+            <div class="mb-6">
+                <label class="block text-purple-300 font-semibold mb-4">Lesson Sections:</label>
+                <div id="sections-container" class="space-y-4"></div>
+                <input type="hidden" name="sections" id="sections-json">
+                <div class="flex gap-2 mt-4 flex-wrap">
+                    <button type="button" onclick="addSection('text')" class="bg-blue-700 px-4 py-2 rounded-xl hover:bg-blue-800">+ Text</button>
+                    <button type="button" onclick="addSection('paragraph')" class="bg-purple-700 px-4 py-2 rounded-xl hover:bg-purple-800">+ Paragraph</button>
+                    <button type="button" onclick="addSection('note')" class="bg-yellow-600 px-4 py-2 rounded-xl hover:bg-yellow-700">+ Note</button>
+                    <button type="button" onclick="addSection('code')" class="bg-gray-600 px-4 py-2 rounded-xl hover:bg-gray-700">+ Code</button>
+                </div>
+            </div>
+
+            <!-- Video Upload -->
+            <div class="mb-6">
+                <label for="video" class="block text-purple-300 font-semibold mb-2">Upload Video (optional):</label>
+                <input type="file" name="video" id="video"
+                    class="w-full text-white file:bg-purple-700 file:border-none file:px-4 file:py-2 file:rounded-lg file:text-white bg-gray-900 border border-purple-600 rounded-xl">
+            </div>
+
+            <!-- Publish Checkbox -->
+            <div class="mb-6">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="is_published" class="form-checkbox h-5 w-5 text-purple-600">
+                    <span class="ml-2 text-gray-200">Publish this lesson</span>
+                </label>
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-xl transition-transform transform hover:scale-105 shadow-lg">
+                    Add Lesson
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function addSection(type) {
+            const container = document.getElementById('sections-container');
+            const wrapper = document.createElement('div');
+            wrapper.className = "bg-gray-900 p-4 rounded-lg border border-purple-700";
+
+            const textarea = document.createElement('textarea');
+            textarea.className = "w-full p-2 bg-black text-white rounded-xl";
+            textarea.placeholder = type.charAt(0).toUpperCase() + type.slice(1) + " content...";
+            textarea.dataset.type = type;
+            wrapper.appendChild(textarea);
+
+            const removeBtn = document.createElement('button');
+            removeBtn.innerText = "Remove";
+            removeBtn.type = "button";
+            removeBtn.className = "mt-2 text-red-400 hover:text-red-600 text-sm";
+            removeBtn.onclick = () => wrapper.remove();
+            wrapper.appendChild(removeBtn);
+
+            container.appendChild(wrapper);
+        }
+
+        function prepareSectionsJSON() {
+            const blocks = [];
+            document.querySelectorAll('#sections-container textarea').forEach(el => {
+                blocks.push({ type: el.dataset.type, content: el.value });
+            });
+            document.getElementById('sections-json').value = JSON.stringify(blocks);
+        }
+    </script>
+
+    <!-- Animation -->
+    <style>
+        @keyframes fade-in-3d {
+            from { opacity: 0; transform: rotateX(-10deg) translateY(40px); }
+            to { opacity: 1; transform: rotateX(0deg) translateY(0); }
+        }
+        .animate-fade-in-3d { animation: fade-in-3d 0.8s ease-out; }
+    </style>
+</div>
+{% endblock %}

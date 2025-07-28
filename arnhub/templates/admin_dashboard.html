@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | ARNcode{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-black via-purple-900 to-blue-950 text-white px-6 py-16">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-4xl font-bold text-yellow-400 mb-8">Admin Dashboard</h1>
+
+        <!-- Courses -->
+        <div class="mb-10">
+            <h2 class="text-2xl font-semibold text-purple-300 mb-4">All Courses</h2>
+            {% if courses %}
+            <ul class="space-y-4">
+                {% for course in courses %}
+                <li class="bg-black bg-opacity-30 p-4 rounded-xl flex justify-between items-center shadow">
+                    <div>
+                        <h3 class="text-xl font-bold text-yellow-300">{{ course.title }}</h3>
+                        <p class="text-sm text-gray-300">Created by: {{ course.creator.username if course.creator else
+                            "Unknown" }}</p>
+                    </div>
+                    <form action="{{ url_for('main.delete_course', course_id=course.id) }}" method="POST">
+                        <button type="submit"
+                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow">Delete</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-gray-400 italic">No courses found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Users -->
+        <div>
+            <h2 class="text-2xl font-semibold text-purple-300 mb-4">All Users</h2>
+            {% if users %}
+            <table class="w-full bg-black bg-opacity-30 rounded-xl shadow overflow-hidden text-left">
+                <thead class="bg-purple-800 text-white text-sm">
+                    <tr>
+                        <th class="px-4 py-2">Username</th>
+                        <th class="px-4 py-2">Email</th>
+                        <th class="px-4 py-2">Admin?</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-purple-700 text-gray-300">
+                    {% for user in users %}
+                    <tr>
+                        <td class="px-4 py-2">{{ user.username }}</td>
+                        <td class="px-4 py-2">{{ user.email }}</td>
+                        <td class="px-4 py-2">
+                            {% if user.is_admin %}
+                            <span class="text-green-400 font-semibold">Yes</span>
+                            {% else %}
+                            <span class="text-red-400">No</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-gray-400 italic">No users found.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

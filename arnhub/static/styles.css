@@ -1,0 +1,176 @@
+/* static/styles.css */
+
+/* Dark Theme Base Colors */
+:root {
+    --primary-bg: #0d0d0d;
+    --secondary-bg: #1a1a2e;
+    --primary-text: #ffffff;
+    --accent-purple: #6a0dad;
+    --accent-blue: #1f51ff;
+    --accent-red: #b30000;
+    --card-bg: #151515;
+    --shadow: rgba(0, 0, 0, 0.5);
+}
+
+/* Reset & Base */
+body {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Navbar */
+nav {
+    background-color: var(--secondary-bg);
+    box-shadow: 0 4px 10px var(--shadow);
+}
+
+/* Links */
+a {
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-blue);
+    transform: scale(1.05);
+}
+
+/* Buttons */
+button,
+.btn {
+    background-color: var(--accent-purple);
+    border: none;
+    padding: 0.7em 1.2em;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+button:hover,
+.btn:hover {
+    background-color: var(--accent-blue);
+    transform: scale(1.08) rotateX(8deg);
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 24px var(--shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+    transform: rotateY(4deg) scale(1.02);
+    box-shadow: 0 12px 32px var(--shadow);
+}
+
+/* 3D Entrance */
+.fade-up {
+    animation: fadeUp 1s ease-in-out both;
+}
+
+@keyframes fadeUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Flash Messages */
+.flash-message {
+    animation: fadeInSlide 0.5s ease-out, fadeOut 0.5s ease-in 4s forwards;
+}
+
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* Inputs */
+input[type="text"],
+input[type="password"] {
+    background-color: #2a2a2a;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 0.5em;
+    width: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-bg);
+    color: #aaa;
+}
+
+.prose h2 {
+    color: #f87171;
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.prose h3 {
+    color: #facc15;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-top: 1.2rem;
+}
+
+.prose ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.prose li {
+    margin-bottom: 0.5rem;
+}
+
+.prose p {
+    color: #e5e7eb;
+    font-size: 1rem;
+    line-height: 1.75rem;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}

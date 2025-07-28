@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Edit Lesson | ARNcode{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-black via-purple-900 to-gray-900 text-white py-16 px-4 animate-fade-in-3d">
+    <div class="max-w-4xl mx-auto bg-gray-800 shadow-2xl rounded-3xl p-10 border border-purple-700 backdrop-blur-md">
+
+        <h1 class="text-3xl font-bold text-yellow-400 mb-8 text-center">Edit Lesson</h1>
+
+        <form method="POST" enctype="multipart/form-data" id="lessonForm">
+            <!-- Title -->
+            <div class="mb-6">
+                <label for="title" class="block text-purple-300 font-semibold mb-2">Lesson Title:</label>
+                <input type="text" name="title" id="title" value="{{ lesson.title }}" required
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+
+            <!-- JSON Editor -->
+            <div class="mb-6">
+                <label class="block text-purple-300 font-semibold mb-2">Lesson Sections:</label>
+                <div id="sectionsContainer"></div>
+
+                <div class="flex gap-3 mt-4">
+                    <button type="button" onclick="addSection('heading')"
+                        class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">+ Heading</button>
+                    <button type="button" onclick="addSection('paragraph')"
+                        class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg">+ Paragraph</button>
+                    <button type="button" onclick="addSection('code')"
+                        class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg">+ Code</button>
+                    <button type="button" onclick="addSection('note')"
+                        class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg">+ Note</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="sections_json" id="sections_json">
+
+            <!-- Video -->
+            <div class="mb-6">
+                <label for="video" class="block text-purple-300 font-semibold mb-2">Upload New Video (optional):</label>
+                <input type="file" name="video"
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600">
+                {% if lesson.video_filename %}
+                <p class="mt-2 text-sm text-gray-400">Current Video: {{ lesson.video_filename }}</p>
+                {% endif %}
+            </div>
+
+            {% if current_user.is_admin %}
+            <div class="mb-6">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="is_published" class="form-checkbox h-5 w-5 text-purple-600"
+                        {% if lesson.is_published %}checked{% endif %}>
+                    <span class="ml-2 text-gray-200">Publish this lesson</span>
+                </label>
+            </div>
+            {% endif %}
+
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-xl transition-transform transform hover:scale-105 shadow-lg">
+                    Update Lesson
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Parse safe JSON from Jinja context
+        const sectionsData = JSON.parse('{{ lesson.sections | tojson | safe }}');
+
+        const container = document.getElementById("sectionsContainer");
+        const sectionsInput = document.getElementById("sections_json");
+        let sections = Array.isArray(sectionsData) ? sectionsData : [];
+
+        function renderSections() {
+            container.innerHTML = "";
+            sections.forEach((section, index) => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "mb-4 p-4 bg-gray-900 rounded-lg border border-purple-500";
+
+                wrapper.innerHTML = `
+                    <label class="block mb-2 text-sm text-purple-300 capitalize">${section.type} Section</label>
+                    <textarea class="w-full p-2 rounded bg-black text-white border border-purple-600" rows="3"
+                        onchange="updateSection(${index}, this.value)">${section.content || ""}</textarea>
+                    <button type="button" onclick="removeSection(${index})"
+                        class="mt-2 text-red-400 hover:text-red-600">Remove</button>
+                `;
+                container.appendChild(wrapper);
+            });
+
+            sectionsInput.value = JSON.stringify(sections);
+        }
+
+        window.addSection = function (type) {
+            sections.push({ type: type, content: "" });
+            renderSections();
+        }
+
+        window.removeSection = function (index) {
+            sections.splice(index, 1);
+            renderSections();
+        }
+
+        window.updateSection = function (index, newContent) {
+            if (sections[index]) {
+                sections[index].content = newContent;
+                sectionsInput.value = JSON.stringify(sections);
+            }
+        }
+
+        renderSections(); // Initial render
+    });
+</script>
+{% endblock %}

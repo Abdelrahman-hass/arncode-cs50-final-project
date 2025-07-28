@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}{{ mode|capitalize }} Course | ARNcode{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-black via-purple-900 to-gray-900 text-white py-16 px-4 animate-fade-in-3d">
+    <div class="max-w-3xl mx-auto bg-gray-800 shadow-2xl rounded-3xl p-10 border border-purple-700 backdrop-blur-md">
+
+        <h1 class="text-3xl font-bold text-red-400 mb-8 text-center">
+            {% if mode == 'edit' %}Edit Course{% else %}Create New Course{% endif %}
+        </h1>
+
+        <form method="POST">
+            <!-- Title -->
+            <div class="mb-6">
+                <label for="title" class="block text-purple-300 font-semibold mb-2">Course Title:</label>
+                <input type="text" name="title" id="title" value="{{ course.title if course else '' }}" required
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+
+            <!-- Description -->
+            <div class="mb-6">
+                <label for="description" class="block text-purple-300 font-semibold mb-2">Description:</label>
+                <textarea name="description" id="description" rows="5" required
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">{{ course.description if course else '' }}</textarea>
+            </div>
+
+            <!-- Category -->
+            <div class="mb-6">
+                <label for="category" class="block text-purple-300 font-semibold mb-2">Category:</label>
+                <input type="text" name="category" id="category" value="{{ course.category if course else '' }}"
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600">
+            </div>
+
+            <!-- Difficulty -->
+            <div class="mb-6">
+                <label for="difficulty" class="block text-purple-300 font-semibold mb-2">Difficulty:</label>
+                <select name="difficulty" id="difficulty"
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600">
+                    <option value="">Select Difficulty</option>
+                    <option value="Beginner" {% if course and course.difficulty == 'Beginner' %}selected{% endif %}>Beginner</option>
+                    <option value="Intermediate" {% if course and course.difficulty == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+                    <option value="Advanced" {% if course and course.difficulty == 'Advanced' %}selected{% endif %}>Advanced</option>
+                </select>
+            </div>
+
+            <!-- Duration -->
+            <div class="mb-6">
+                <label for="duration" class="block text-purple-300 font-semibold mb-2">Estimated Duration:</label>
+                <input type="text" name="duration" id="duration" value="{{ course.duration if course else '' }}"
+                    class="w-full p-3 rounded-xl bg-gray-900 text-white border border-purple-600">
+            </div>
+
+            <!-- Publish Checkbox (Admins only) -->
+            {% if current_user.is_admin %}
+            <div class="mb-6">
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="is_published" class="form-checkbox h-5 w-5 text-purple-600"
+                        {% if course and course.is_published %}checked{% endif %}>
+                    <span class="ml-2 text-gray-200">Publish this course</span>
+                </label>
+            </div>
+            {% endif %}
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-xl transition-transform transform hover:scale-105 shadow-lg">
+                    {% if mode == 'edit' %}Update Course{% else %}Create Course{% endif %}
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Animation -->
+    <style>
+        @keyframes fade-in-3d {
+            from {
+                opacity: 0;
+                transform: rotateX(-10deg) translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: rotateX(0deg) translateY(0);
+            }
+        }
+
+        .animate-fade-in-3d {
+            animation: fade-in-3d 0.8s ease-out;
+        }
+    </style>
+</div>
+{% endblock %}

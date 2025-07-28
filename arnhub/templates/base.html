@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}ARNcode{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body class="bg-gradient-to-b from-purple-900 via-black to-blue-900 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-black bg-opacity-30 px-6 py-4 flex justify-between items-center shadow-md z-50">
+        <div class="text-yellow-400 text-3xl font-bold">
+            ARNcode
+        </div>
+        <ul class="flex space-x-4 text-white font-semibold text-sm">
+            <li><a href="{{ url_for('main.index') }}" class="hover:text-yellow-400 transition">Home</a></li>
+            <li><a href="{{ url_for('main.about') }}" class="hover:text-yellow-400 transition">About</a></li>
+            <li><a href="{{ url_for('main.courses') }}" class="hover:text-yellow-400 transition">Courses</a></li>
+
+            {% if current_user.is_authenticated %}
+            {% if current_user.is_admin %}
+            <li><a href="{{ url_for('admin.admin_dashboard') }}" class="hover:text-yellow-400 transition">Admin</a></li>
+            {% else %}
+            <li><a href="{{ url_for('main.request_admin') }}" class="hover:text-purple-200 transition">Request Admin
+                    Access</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('auth.logout') }}" class="text-red-500 hover:text-red-600 transition">Logout</a>
+            </li>
+            {% else %}
+            <li><a href="{{ url_for('auth.login') }}" class="hover:text-yellow-400 transition">Login</a></li>
+            <li><a href="{{ url_for('auth.signup') }}" class="hover:text-yellow-400 transition">Signup</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+    <!-- Flash Messages -->
+    <div class="container max-w-xl mx-auto mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div
+            class="flash-message bg-{{ 'green' if category == 'success' else 'red' }}-200 text-{{ 'green' if category == 'success' else 'red' }}-900 border border-{{ 'green' if category == 'success' else 'red' }}-500 px-4 py-3 rounded mb-4 shadow-xl">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow animate-fade-in-up">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-400 py-6 text-sm bg-black bg-opacity-30">
+        &copy; {{ now_year }} ARNcode. All rights reserved. <br>
+        For support, contact us at:
+        <a href="mailto:arncode.app@gmail.com" class="text-purple-400 hover:underline">arncode.app@gmail.com</a>
+    </footer>
+
+</body>
+
+</html>

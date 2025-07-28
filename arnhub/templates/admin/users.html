@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="p-8 animate-fade-in text-white">
+    <h1 class="text-3xl font-bold mb-6 text-center">All Users</h1>
+
+    {% macro user_row(user, current_user) %}
+    <tr class="hover:bg-gray-800 transition-all">
+        <td class="px-4 py-2 border-t border-gray-700">{{ user.id }}</td>
+        <td class="px-4 py-2 border-t border-gray-700">
+            <form action="{{ url_for('admin.edit_user', user_id=user.id) }}" method="POST" class="flex gap-2">
+                <input type="text" name="username" value="{{ user.username }}"
+                    class="bg-gray-800 text-white px-2 py-1 rounded w-36" />
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-sm font-semibold">Save</button>
+            </form>
+        </td>
+        <td class="px-4 py-2 border-t border-gray-700">{{ user.email }}</td>
+        <td class="px-4 py-2 border-t border-gray-700">
+            {% if user.is_head_admin %}
+            <span class="text-cyan-400 font-semibold">Head Admin</span>
+            {% elif user.is_admin %}
+            <span class="text-green-400 font-semibold">Admin</span>
+            {% else %}
+            <span class="text-red-400 font-semibold">User</span>
+            {% endif %}
+        </td>
+        <td class="px-4 py-2 border-t border-gray-700 space-x-2">
+            <form action="{{ url_for('admin.reset_password', user_id=user.id) }}" method="POST" style="display:inline;">
+                <button class="text-yellow-400 hover:text-yellow-300 text-sm font-medium"
+                    onclick="return confirm('Send new password to {{ user.email }}?')">Reset Password</button>
+            </form>
+            {% if user.id != current_user.id %}
+            <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                <button class="text-red-500 hover:text-red-400 text-sm font-medium"
+                    onclick="return confirm('Are you sure you want to delete {{ user.username }}?')">Delete</button>
+            </form>
+            {% if user.is_admin and not user.is_head_admin %}
+            <button type="button" onclick="openRevokeModal('{{ user.id }}')"
+                class="text-yellow-400 hover:text-yellow-200 text-sm font-medium">
+                Revoke Admin
+            </button>
+            {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    {% endmacro %}
+
+    {% set head_admins = users | selectattr('is_head_admin') | list %}
+    {% set admins = users | selectattr('is_admin') | rejectattr('is_head_admin') | list %}
+    {% set regular_users = users | rejectattr('is_admin') | list %}
+
+    <!-- Head Admins -->
+    <h2 class="text-xl font-semibold mt-8 mb-2 text-cyan-400">👑 Head Admins</h2>
+    <table class="w-full table-auto bg-gradient-to-br from-gray-900 to-black rounded-xl shadow overflow-hidden mb-6">
+        <thead>
+            <tr class="bg-gray-800 text-yellow-400 text-left">
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Username</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Role</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in head_admins %}
+            {{ user_row(user, current_user) }}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Admins -->
+    <h2 class="text-xl font-semibold mt-8 mb-2 text-yellow-300">🛠 Admins</h2>
+    <table class="w-full table-auto bg-gradient-to-br from-gray-900 to-black rounded-xl shadow overflow-hidden mb-6">
+        <thead>
+            <tr class="bg-gray-800 text-yellow-400 text-left">
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Username</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Role</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in admins %}
+            {{ user_row(user, current_user) }}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Regular Users -->
+    <h2 class="text-xl font-semibold mt-8 mb-2 text-purple-300">👥 Regular Users</h2>
+    <table class="w-full table-auto bg-gradient-to-br from-gray-900 to-black rounded-xl shadow overflow-hidden mb-6">
+        <thead>
+            <tr class="bg-gray-800 text-yellow-400 text-left">
+                <th class="px-4 py-2">ID</th>
+                <th class="px-4 py-2">Username</th>
+                <th class="px-4 py-2">Email</th>
+                <th class="px-4 py-2">Role</th>
+                <th class="px-4 py-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in regular_users %}
+            {{ user_row(user, current_user) }}
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<!-- Revoke Modal -->
+<div id="revokeModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+    <div class="bg-zinc-900 p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-xl font-bold text-yellow-400 mb-4">Revoke Admin Access</h2>
+        <form method="POST" id="revokeForm">
+            <label for="comment" class="block text-sm text-purple-200 mb-2">Reason for revoking:</label>
+            <textarea name="comment" id="comment" rows="3"
+                class="w-full p-2 bg-zinc-800 border border-yellow-500 rounded text-white focus:outline-none resize-none"
+                required></textarea>
+            <div class="flex justify-end gap-3 mt-4">
+                <button type="button" onclick="closeRevokeModal()"
+                    class="px-4 py-1 bg-gray-600 hover:bg-gray-700 rounded text-white">Cancel</button>
+                <button type="submit" class="px-4 py-1 bg-red-600 hover:bg-red-700 rounded text-white">Confirm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openRevokeModal(userId) {
+        const modal = document.getElementById('revokeModal');
+        const form = document.getElementById('revokeForm');
+        form.action = `/admin/revoke-admin/${userId}`;
+        modal.classList.remove('hidden');
+    }
+
+    function closeRevokeModal() {
+        document.getElementById('revokeModal').classList.add('hidden');
+        document.getElementById('revokeForm').reset();
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}{{ lesson.title }} | ARNcode{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-b from-black via-purple-900 to-blue-950 text-white px-6 py-16">
+    <div class="max-w-4xl mx-auto animate-fade-in-up">
+        <div class="bg-black bg-opacity-40 p-8 rounded-2xl shadow-xl mb-10">
+            <h1 class="text-4xl font-bold text-yellow-400 mb-4">{{ lesson.title }}</h1>
+
+            {% if lesson.video_filename %}
+            <div class="mb-6">
+                <video controls class="w-full rounded-xl shadow-lg">
+                    <source src="{{ url_for('static', filename='lesson_videos/' + lesson.video_filename) }}"
+                        type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if lesson.sections %}
+        <div class="space-y-6">
+            {% for section in lesson.sections %}
+            {% if section.type == 'heading' %}
+            <div class="bg-gray-900 bg-opacity-60 p-4 rounded-xl border-l-4 border-purple-500">
+                <h2 class="text-2xl font-semibold text-purple-300">{{ section.content }}</h2>
+            </div>
+            {% elif section.type == 'paragraph' %}
+            <div class="bg-gray-900 bg-opacity-40 p-4 rounded-xl">
+                <p class="text-lg text-gray-200 leading-relaxed">{{ section.content }}</p>
+            </div>
+            {% elif section.type == 'code' %}
+            <div class="bg-black p-4 rounded-xl border border-purple-700">
+                <pre class="overflow-x-auto"><code class="text-green-400 text-sm">{{ section.content }}</code></pre>
+            </div>
+            {% elif section.type == 'note' %}
+            <div class="bg-yellow-100 text-yellow-900 p-4 rounded-xl">
+                <strong>Note:</strong> {{ section.content }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-400 italic">This lesson has no content yet.</p>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.7s ease-out;
+    }
+</style>
+{% endblock %}
