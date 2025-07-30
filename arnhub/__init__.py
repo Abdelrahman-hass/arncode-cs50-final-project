@@ -63,24 +63,6 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-        user = User.query.filter_by(username="ARNcode").first()
-        if not user:
-            admin = User(
-                username="ARNcode",
-                email="arncode.app@gmail.com",
-                password=generate_password_hash("Abd123an@", method="pbkdf2:sha256"),
-                is_admin=True,
-                is_head_admin=True
-            )
-            db.session.add(admin)
-            db.session.commit()
-            print("✅ Head Admin user created.")
-        else:
-            user.is_admin = True
-            user.is_head_admin = True
-            db.session.commit()
-            print("⚠️ Existing user promoted to Head Admin.")
-
     # -----------------------
     # Template context
     # -----------------------
